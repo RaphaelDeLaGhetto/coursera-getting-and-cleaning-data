@@ -86,10 +86,11 @@ relevantData <- combinedData[,c(1, 2, relevantColumns)]
 #
 # Get the averages for each subject's activity
 #
-
+#splitData <- split(relevantData, factor(relevantData$SubjectID))
+tidyData <- aggregate(relevantData[,c(-1,-2)],by=list(relevantData$SubjectID,relevantData$Activity),FUN=mean, na.rm=TRUE)
 
 #
 # Write to file
 #
-write.table(relevantData, file='tidyData.txt', row.name=FALSE)
+write.table(tidyData, file='tidyData.txt', row.name=FALSE)
 
