@@ -1,5 +1,5 @@
-Code Book: Human Activity Recognition Using Smartphones
-=======================================================
+Code Book: Human Activity Recognition Using Smartphones Dataset
+===============================================================
 
 This document describes the variables, data, transformations, and work performed on the
 HAR data set.
