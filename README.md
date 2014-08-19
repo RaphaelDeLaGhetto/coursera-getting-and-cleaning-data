@@ -9,8 +9,8 @@ For a detailed description of the modified data set, refer to the [Code Book](ht
 
 # Set up
 
-The following instructions are meant to be executed on a Debian-like 
-OS (e.g., Ubuntu 14.04).
+The following instructions are meant to be executed on the linux 
+command line.
 
 ## Clone the repository
 
