@@ -47,9 +47,11 @@ featureLabels$name <- gsub('\\)', '', featureLabels$name)
 #
 testLabels <- read.table('UCI HAR Dataset/test/y_test.txt', col.names=c('name')) 
 testLabels <- factor(testLabels$name, labels=activityLabels$name)
+testSubjects <- read.table('UCI HAR Dataset/test/subject_test.txt') 
 testData <- read.table('UCI HAR Dataset/test/X_test.txt', col.names=featureLabels$name) 
-testData <- cbind(testLabels, testData)
-colnames(testData)[1] <- 'Activity'
+testData <- cbind(testSubjects, testLabels, testData)
+colnames(testData)[1] <- 'SubjectID'
+colnames(testData)[2] <- 'Activity'
 
 #
 # Prepare the training data
@@ -59,9 +61,11 @@ colnames(testData)[1] <- 'Activity'
 #
 trainingLabels <- read.table('UCI HAR Dataset/train/y_train.txt', col.names=c('name')) 
 trainingLabels <- factor(trainingLabels$name, labels=activityLabels$name)
+trainingTestSubjects <- read.table('UCI HAR Dataset/train/subject_train.txt') 
 trainingData <- read.table('UCI HAR Dataset/train/X_train.txt', col.names=featureLabels$name) 
-trainingData <- cbind(trainingLabels, trainingData)
-colnames(trainingData)[1] <- 'Activity'
+trainingData <- cbind(trainingTestSubjects, trainingLabels, trainingData)
+colnames(trainingData)[1] <- 'SubjectID'
+colnames(trainingData)[2] <- 'Activity'
 
 #
 # Combine the test data and training data
@@ -74,13 +78,19 @@ combinedData <- rbind(testData, trainingData)
 relevantColumns <- grep('[Mm]ean|std', colnames(combinedData))
 
 #
-# Collect the data in the relevant columns
+# Collect the data in the relevant columns. Column 1 and 2 are the
+# SubjectID and Activity, respectively
 #
-relevantData <- combinedData[,c(1, relevantColumns)]
+relevantData <- combinedData[,c(1, 2, relevantColumns)]
 
+#
+# Get the averages for each subject's activity
+#
+#splitData <- split(relevantData, factor(relevantData$SubjectID))
+tidyData <- aggregate(relevantData[,c(-1,-2)],by=list(relevantData$SubjectID,relevantData$Activity),FUN=mean, na.rm=TRUE)
 
 #
 # Write to file
 #
-write.table(relevantData, file='tidyData.txt')
+write.table(tidyData, file='tidyData.txt', row.name=FALSE)
 
