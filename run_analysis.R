@@ -30,7 +30,7 @@ activityLabels$name <- sub('_', '', activityLabels$name)
 # Prepare the feature labels
 #
 # The naming conventions outlined in class make these labels less readable. As
-# such, hyphens are converted to underscores, parantheses are removed, and commas are 
+# such, hyphens are converted to underscores, parentheses are removed, and commas are 
 # replaced with periods so that column headers aren't mangled by R.
 #
 featureLabels <- read.table('UCI HAR Dataset/features.txt', col.names=c('id', 'name'))
@@ -57,7 +57,7 @@ colnames(testData)[2] <- 'Activity'
 # Prepare the training data
 #
 # Training data is read into a table and the test subject's activities labeled
-# appropriately
+# appropriately (same as above, except with the training data)
 #
 trainingLabels <- read.table('UCI HAR Dataset/train/y_train.txt', col.names=c('name')) 
 trainingLabels <- factor(trainingLabels$name, labels=activityLabels$name)
@@ -73,7 +73,8 @@ colnames(trainingData)[2] <- 'Activity'
 combinedData <- rbind(testData, trainingData)
 
 #
-# Identify which columns contain mean and standard deviation data
+# Identify which columns contain mean and standard deviation data. Measurements
+# like gravityMean and meanFreq are also included here.
 #
 relevantColumns <- grep('[Mm]ean|std', colnames(combinedData))
 
@@ -86,8 +87,18 @@ relevantData <- combinedData[,c(1, 2, relevantColumns)]
 #
 # Get the averages for each subject's activity
 #
-#splitData <- split(relevantData, factor(relevantData$SubjectID))
-tidyData <- aggregate(relevantData[,c(-1,-2)],by=list(relevantData$SubjectID,relevantData$Activity),FUN=mean, na.rm=TRUE)
+tidyData <- aggregate(relevantData[,c(-1,-2)], by=list(relevantData$Activity, relevantData$SubjectID), FUN=mean, na.rm=TRUE)
+
+#
+# Present data with the SubjectID in the left-most column
+#
+tidyData <- tidyData[,c(2,1,3:length(names(tidyData)))]
+
+#
+# Label the two left-most columns appropriately (i.e., SubjectID and Activity)
+#
+colnames(tidyData)[1] <- 'SubjectID'
+colnames(tidyData)[2] <- 'Activity'
 
 #
 # Write to file
