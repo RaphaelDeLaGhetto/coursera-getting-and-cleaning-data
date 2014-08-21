@@ -11,6 +11,11 @@ A description of the data used in this project can be found
 
 It was downloaded from [here](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip) on August 15, 2014.
 
+# Transformations/work performed
+
+For a detailed, inline description of how the original dataset was handled, read the comments in
+[`run_analysis.R`](https://github.com/RaphaelDeLaGhetto/coursera-getting-and-cleaning-data/blob/master/run_analysis.R).
+
 # Variables
 
 Each of the variables listed below is accompanied by a description, its column position in the tidy data
