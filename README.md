@@ -27,7 +27,7 @@ data set must be downloaded into the working directory.
 cd coursera-getting-and-cleaning-data
 wget https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 ```
-## Run the script
+# Run the script
 
 From the project working directory, you may either run
 
