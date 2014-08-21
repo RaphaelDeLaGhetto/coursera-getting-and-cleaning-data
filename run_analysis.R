@@ -36,7 +36,8 @@ activityLabels$name <- sub('_', '', activityLabels$name)
 featureLabels <- read.table('UCI HAR Dataset/features.txt', col.names=c('id', 'name'))
 featureLabels$name <- gsub('-', '_', featureLabels$name)
 featureLabels$name <- gsub(',', '.', featureLabels$name)
-featureLabels$name <- gsub('\\(', '', featureLabels$name)
+featureLabels$name <- gsub('\\(\\)', '', featureLabels$name)
+featureLabels$name <- gsub('\\(', '_', featureLabels$name)
 featureLabels$name <- gsub('\\)', '', featureLabels$name)
 
 #
